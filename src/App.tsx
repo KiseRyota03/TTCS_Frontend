@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react"; // Correct import
+import React, { useEffect, useRef, useState } from "react";
 import {
   createBrowserRouter,
   Outlet,
@@ -6,7 +6,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import LayoutApp from "./components/share/layout.app";
-
+import LayoutAdmin from "./components/admin/layout.admin";
 const LayoutClient = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const location = useLocation();
@@ -18,15 +18,16 @@ const LayoutClient = () => {
     }
   }, [location]);
 
-  // return (
-  //   <div className="layout-app" ref={rootRef}>
-  //     <Header searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-  //     <div className={styles["content-app"]}>
-  //       <Outlet context={[searchTerm, setSearchTerm]} />
-  //     </div>
-  //     <Footer />
-  //   </div>
-  // );
+  // Return the layout, uncomment when ready to use it
+  return (
+    <div className="layout-app" ref={rootRef}>
+      {/* <Header searchTerm={searchTerm} setSearchTerm={setSearchTerm} /> */}
+      {/* <div className={styles["content-app"]}> */}
+      {/* <Outlet context={[searchTerm, setSearchTerm]} /> */}
+      {/* </div> */}
+      {/* <Footer /> */}
+    </div>
+  );
 };
 
 export default function App() {
@@ -46,13 +47,39 @@ export default function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <LayoutApp></LayoutApp>,
+      element: (
+        <LayoutApp>
+          <LayoutClient />
+        </LayoutApp>
+      ),
+      children: [
+        {
+          path: "dashboard",
+          // element: <AdminDashboard />, // Component to render at /admin/dashboard
+        },
+        {
+          path: "users",
+          // element: <AdminUsers />, // Component to render at /admin/users
+        },
+      ],
     },
     {
       path: "/admin",
       element: (
-        <LayoutApp>{/* Add your admin layout content here */}</LayoutApp>
+        <LayoutApp>
+          <LayoutAdmin />
+        </LayoutApp>
       ),
+      children: [
+        {
+          path: "dashboard",
+          // element: <AdminDashboard />, // Component to render at /admin/dashboard
+        },
+        {
+          path: "users",
+          // element: <AdminUsers />, // Component to render at /admin/users
+        },
+      ],
     },
   ]);
 
