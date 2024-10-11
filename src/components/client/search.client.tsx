@@ -1,8 +1,8 @@
 import { Button, Col, Form, Row, Select } from "antd";
 import { EnvironmentOutlined, MonitorOutlined } from "@ant-design/icons";
-import { LOCATION_LIST, SKILLS_LIST } from "@/config/utils";
 import React from "react";
 import ProForm from "@ant-design/pro-form";
+import { LOCATION_LIST, SKILLS_LIST } from "@/config/util";
 const SearchClient = () => {
   const optionsSkills = SKILLS_LIST;
   const optionsLocations = LOCATION_LIST;
