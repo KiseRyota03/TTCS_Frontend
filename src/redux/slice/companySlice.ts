@@ -32,7 +32,7 @@ const initialState: IState = {
   result: [],
 };
 
-export const companySlide = createSlice({
+export const companySlice = createSlice({
   name: "company",
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
@@ -69,6 +69,6 @@ export const companySlide = createSlice({
   },
 });
 
-export const { setActiveMenu } = companySlide.actions;
+export const { setActiveMenu } = companySlice.actions;
 
-export default companySlide.reducer;
+export default companySlice.reducer;

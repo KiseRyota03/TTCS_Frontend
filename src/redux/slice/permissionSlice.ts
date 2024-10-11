@@ -32,7 +32,7 @@ const initialState: IState = {
   result: [],
 };
 
-export const permissionSlide = createSlice({
+export const permissionSlice = createSlice({
   name: "permission",
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
@@ -64,6 +64,6 @@ export const permissionSlide = createSlice({
   },
 });
 
-export const {} = permissionSlide.actions;
+export const {} = permissionSlice.actions;
 
-export default permissionSlide.reducer;
+export default permissionSlice.reducer;

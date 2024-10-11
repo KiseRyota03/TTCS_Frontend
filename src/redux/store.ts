@@ -1,6 +1,6 @@
 import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
 import accountReducer from "./slice/accountSlice";
-import companyReducer from "./slice/companySlide";
+import companyReducer from "./slice/companySlice";
 import userReducer from "./slice/userSlice";
 import jobReducer from "./slice/jobSlice";
 import resumeReducer from "./slice/resumeSlice";

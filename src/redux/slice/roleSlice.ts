@@ -50,7 +50,7 @@ const initialState: IState = {
   },
 };
 
-export const roleSlide = createSlice({
+export const roleSlice = createSlice({
   name: "role",
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
@@ -125,6 +125,6 @@ export const roleSlide = createSlice({
   },
 });
 
-export const { resetSingleRole } = roleSlide.actions;
+export const { resetSingleRole } = roleSlice.actions;
 
-export default roleSlide.reducer;
+export default roleSlice.reducer;
