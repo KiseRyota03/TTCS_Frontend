@@ -4,7 +4,7 @@ import {
   ProFormDigit,
   ProFormSelect,
   ProFormText,
-} from "@ant-design/pro-form";
+} from "@ant-design/pro-components";
 import { Col, Form, Row, message, notification } from "antd";
 import { isMobile } from "react-device-detect";
 import { useState, useEffect } from "react";
@@ -16,6 +16,7 @@ import {
 } from "@/config/api";
 import { IUser } from "@/types/backend";
 import { DebounceSelect } from "./debouce.select";
+
 interface IProps {
   openModal: boolean;
   setOpenModal: (v: boolean) => void;
@@ -28,6 +29,11 @@ export interface ICompanySelect {
   label: string;
   value: string;
   key?: string;
+}
+
+interface ICompanyRoleItem {
+  _id: string;
+  name: string;
 }
 
 const ModalUser = (props: IProps) => {
@@ -88,7 +94,6 @@ const ModalUser = (props: IProps) => {
       } else {
         notification.error({
           message: "Có lỗi xảy ra",
-          description: res.message,
         });
       }
     } else {
@@ -114,7 +119,6 @@ const ModalUser = (props: IProps) => {
       } else {
         notification.error({
           message: "Có lỗi xảy ra",
-          description: res.message,
         });
       }
     }
@@ -134,11 +138,11 @@ const ModalUser = (props: IProps) => {
       `current=1&pageSize=100&name=/${name}/i`
     );
     if (res && res.data) {
-      const list = res.data.result;
-      const temp = list.map((item) => {
+      const list = res.data.result as ICompanyRoleItem[]; // Type assertion
+      const temp = list.map((item: ICompanyRoleItem) => {
         return {
-          label: item.name as string,
-          value: item._id as string,
+          label: item.name,
+          value: item._id,
         };
       });
       return temp;
@@ -148,11 +152,11 @@ const ModalUser = (props: IProps) => {
   async function fetchRoleList(name: string): Promise<ICompanySelect[]> {
     const res = await callFetchRole(`current=1&pageSize=100&name=/${name}/i`);
     if (res && res.data) {
-      const list = res.data.result;
-      const temp = list.map((item) => {
+      const list = res.data.result as ICompanyRoleItem[]; // Type assertion
+      const temp = list.map((item: ICompanyRoleItem) => {
         return {
-          label: item.name as string,
-          value: item._id as string,
+          label: item.name,
+          value: item._id,
         };
       });
       return temp;

@@ -24,7 +24,7 @@ const handleRefreshToken = async (): Promise<string | null> => {
     const res = await instance.get<IBackendRes<AccessTokenResponse>>(
       "/api/v1/auth/refresh"
     );
-    if (res && res.data) return res.data.access_token;
+    if (res && res.data) return res.data.data?.access_token ?? null;
     else return null;
   });
 };
