@@ -15,7 +15,7 @@ import { isMobile } from "react-device-detect";
 import { FaReact } from "react-icons/fa";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { callLogout } from "@/config/api";
 import { setLogoutAction } from "@/redux/slice/accountSlice";
 import ManageAccount from "./modal/manage.account";
