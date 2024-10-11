@@ -23,7 +23,7 @@ import type { ColumnsType } from "antd/es/table";
 import dayjs from "dayjs";
 import { MonitorOutlined } from "@ant-design/icons";
 import { SKILLS_LIST } from "@/config/utils";
-import { useAppSelector } from "@/redux/hooks";
+// import { useAppSelector } from
 
 interface IProps {
   open: boolean;
