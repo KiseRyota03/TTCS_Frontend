@@ -1,47 +1,69 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   createBrowserRouter,
   Outlet,
   RouterProvider,
   useLocation,
 } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "./redux/hook";
+import NotFound from "components/share/not.found";
+import Loading from "components/share/loading";
+import LoginPage from "pages/auth/login";
+import RegisterPage from "pages/auth/register";
+import LayoutAdmin from "components/admin/layout.admin";
+import ProtectedRoute from "./components/share/protected-route";
+import Header from "components/client/header.client";
+import Footer from "components/client/footer.client";
+import HomePage from "pages/home";
+import styles from "styles/app.module.scss";
+import DashboardPage from "./pages/admin/dashboard";
+import CompanyPage from "./pages/admin/company";
+import PermissionPage from "./pages/admin/permission";
+import ResumePage from "./pages/admin/resume";
+import RolePage from "./pages/admin/role";
+import UserPage from "./pages/admin/user";
+import { fetchAccount } from "./redux/slice/accountSlice";
 import LayoutApp from "./components/share/layout.app";
-import LayoutAdmin from "./components/admin/layout.admin";
+import JobPage from "./pages/admin/job";
+import ViewUpsertJob from "./components/admin/job/upsert.job";
+import ClientJobPage from "./pages/job";
+import ClientJobDetailPage from "./pages/job/detail";
+import ClientCompanyPage from "./pages/company";
+import ClientCompanyDetailPage from "./pages/company/detail";
+
 const LayoutClient = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const location = useLocation();
   const rootRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (rootRef.current) {
+    if (rootRef && rootRef.current) {
       rootRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [location]);
 
-  // Return the layout, uncomment when ready to use it
   return (
     <div className="layout-app" ref={rootRef}>
-      {/* <Header searchTerm={searchTerm} setSearchTerm={setSearchTerm} /> */}
-      {/* <div className={styles["content-app"]}> */}
-      {/* <Outlet context={[searchTerm, setSearchTerm]} /> */}
-      {/* </div> */}
-      {/* <Footer /> */}
+      <Header searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+      <div className={styles["content-app"]}>
+        <Outlet context={[searchTerm, setSearchTerm]} />
+      </div>
+      <Footer />
     </div>
   );
 };
 
 export default function App() {
-  // const dispatch = useAppDispatch();
-  // const isLoading = useAppSelector((state) => state.account.isLoading);
+  const dispatch = useAppDispatch();
+  const isLoading = useAppSelector((state) => state.account.isLoading);
 
   useEffect(() => {
     if (
       window.location.pathname === "/login" ||
       window.location.pathname === "/register"
-    ) {
+    )
       return;
-    }
-    // dispatch(fetchAccount());
+    dispatch(fetchAccount());
   }, []);
 
   const router = createBrowserRouter([
@@ -52,34 +74,108 @@ export default function App() {
           <LayoutClient />
         </LayoutApp>
       ),
+      errorElement: <NotFound />,
       children: [
-        {
-          path: "dashboard",
-          // element: <AdminDashboard />, // Component to render at /admin/dashboard
-        },
-        {
-          path: "users",
-          // element: <AdminUsers />, // Component to render at /admin/users
-        },
+        { index: true, element: <HomePage /> },
+        { path: "job", element: <ClientJobPage /> },
+        { path: "job/:id", element: <ClientJobDetailPage /> },
+        { path: "company", element: <ClientCompanyPage /> },
+        { path: "company/:id", element: <ClientCompanyDetailPage /> },
       ],
     },
+
     {
       path: "/admin",
       element: (
         <LayoutApp>
-          <LayoutAdmin />
+          <LayoutAdmin />{" "}
         </LayoutApp>
       ),
+      errorElement: <NotFound />,
       children: [
         {
-          path: "dashboard",
-          // element: <AdminDashboard />, // Component to render at /admin/dashboard
+          index: true,
+          element: (
+            <ProtectedRoute>
+              <DashboardPage />
+            </ProtectedRoute>
+          ),
         },
         {
-          path: "users",
-          // element: <AdminUsers />, // Component to render at /admin/users
+          path: "company",
+          element: (
+            <ProtectedRoute>
+              <CompanyPage />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "user",
+          element: (
+            <ProtectedRoute>
+              <UserPage />
+            </ProtectedRoute>
+          ),
+        },
+
+        {
+          path: "job",
+          children: [
+            {
+              index: true,
+              element: (
+                <ProtectedRoute>
+                  {" "}
+                  <JobPage />
+                </ProtectedRoute>
+              ),
+            },
+            {
+              path: "upsert",
+              element: (
+                <ProtectedRoute>
+                  <ViewUpsertJob />
+                </ProtectedRoute>
+              ),
+            },
+          ],
+        },
+
+        {
+          path: "resume",
+          element: (
+            <ProtectedRoute>
+              <ResumePage />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "permission",
+          element: (
+            <ProtectedRoute>
+              <PermissionPage />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "role",
+          element: (
+            <ProtectedRoute>
+              <RolePage />
+            </ProtectedRoute>
+          ),
         },
       ],
+    },
+
+    {
+      path: "/login",
+      element: <LoginPage />,
+    },
+
+    {
+      path: "/register",
+      element: <RegisterPage />,
     },
   ]);
 
