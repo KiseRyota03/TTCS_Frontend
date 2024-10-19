@@ -20,8 +20,8 @@ const ClientCompanyDetailPage = (props: any) => {
       if (id) {
         setIsLoading(true);
         const res = await callFetchCompanyById(id);
-        if (res?.data) {
-          setCompanyDetail(res.data);
+        if (res?.data?.data) {
+          setCompanyDetail(res.data.data);
         }
         setIsLoading(false);
       }

@@ -97,7 +97,6 @@ const ModalCompany = (props: IProps) => {
       } else {
         notification.error({
           message: "Có lỗi xảy ra",
-          description: res.message,
         });
       }
     } else {
@@ -115,7 +114,7 @@ const ModalCompany = (props: IProps) => {
       } else {
         notification.error({
           message: "Có lỗi xảy ra",
-          description: res.message,
+          description: res.statusText,
         });
       }
     }
@@ -190,10 +189,10 @@ const ModalCompany = (props: IProps) => {
 
   const handleUploadFileLogo = async ({ file, onSuccess, onError }: any) => {
     const res = await callUploadSingleFile(file, "company");
-    if (res && res.data) {
+    if (res && res?.data && res?.data?.data?.fileName) {
       setDataLogo([
         {
-          name: res.data.fileName,
+          name: res.data.data?.fileName,
           uid: uuidv4(),
         },
       ]);
@@ -201,7 +200,7 @@ const ModalCompany = (props: IProps) => {
     } else {
       if (onError) {
         setDataLogo([]);
-        const error = new Error(res.message);
+        const error = new Error(res.statusText);
         onError({ event: error });
       }
     }

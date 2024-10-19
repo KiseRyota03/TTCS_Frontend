@@ -1,4 +1,4 @@
-import { useAppSelector } from "@/redux/hooks";
+import { useAppSelector } from "@/redux/hook";
 import { IJob } from "@/types/backend";
 import {
   Button,
@@ -17,7 +17,7 @@ import { UploadOutlined } from "@ant-design/icons";
 import type { UploadProps } from "antd";
 import { callCreateResume, callUploadSingleFile } from "@/config/api";
 import { useState } from "react";
-import ProForm from "@ant-design/pro-form";
+import ProForm, { ProFormText } from "@ant-design/pro-form";
 
 interface IProps {
   isModalOpen: boolean;
@@ -58,7 +58,7 @@ const ApplyModal = (props: IProps) => {
         } else {
           notification.error({
             message: "Có lỗi xảy ra",
-            description: res.message,
+            description: res.status,
           });
         }
       }
@@ -71,13 +71,13 @@ const ApplyModal = (props: IProps) => {
     accept: "application/pdf,application/msword, .doc, .docx, .pdf",
     async customRequest({ file, onSuccess, onError }: any) {
       const res = await callUploadSingleFile(file, "resume");
-      if (res && res.data) {
-        setUrlCV(res.data.fileName);
+      if (res?.data?.data?.fileName) {
+        setUrlCV(res.data.data.fileName);
         if (onSuccess) onSuccess("ok");
       } else {
         if (onError) {
           setUrlCV("");
-          const error = new Error(res.message);
+          const error = new Error(res.statusText);
           onError({ event: error });
         }
       }
