@@ -11,7 +11,6 @@ import {
 import { Avatar, Drawer, Dropdown, MenuProps, Space, message } from "antd";
 import { Menu, ConfigProvider } from "antd";
 import styles from "@/styles/client.module.scss";
-import style
 import { isMobile } from "react-device-detect";
 import { FaReact } from "react-icons/fa";
 import { useLocation, useNavigate } from "react-router-dom";
