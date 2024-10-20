@@ -1,7 +1,7 @@
 import ModalCompany from "@/components/admin/company/modal.company";
 import DataTable from "@/components/client/data-table";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { fetchCompany } from "@/redux/slice/companySlide";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import { fetchCompany } from "@/redux/slice/companySlice";
 import { ICompany } from "@/types/backend";
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { ActionType, ProColumns } from "@ant-design/pro-components";
@@ -11,6 +11,7 @@ import dayjs from "dayjs";
 import { callDeleteCompany } from "@/config/api";
 import queryString from "query-string";
 import Access from "@/components/share/access";
+import { ALL_PERMISSIONS } from "@/config/permissions";
 
 const CompanyPage = () => {
   const [openModal, setOpenModal] = useState<boolean>(false);
@@ -32,7 +33,7 @@ const CompanyPage = () => {
       } else {
         notification.error({
           message: "Có lỗi xảy ra",
-          description: res.message,
+          description: res.status,
         });
       }
     }
