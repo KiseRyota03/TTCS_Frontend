@@ -11,7 +11,6 @@ import dayjs from "dayjs";
 import { callDeleteCompany } from "@/config/api";
 import queryString from "query-string";
 import Access from "@/components/share/access";
-import { ALL_PERMISSIONS } from "@/config/permissions";
 
 const CompanyPage = () => {
   const [openModal, setOpenModal] = useState<boolean>(false);
